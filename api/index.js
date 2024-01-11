@@ -18,4 +18,14 @@ mongoose.connect(process.env.MONGO)
 app.use('/api/user',userRouter);
 app.use('/api/auth',authRouter);
 
-//more proffessional middleware
+//to do more professional middleware
+
+app.use((err,req,res,next)=>{
+    const statusCode= err.statusCode ||500;
+    const message =err.message;
+    return res.status(statusCode).json({
+        success:false,
+        statusCode:statusCode,
+        message:message
+    });
+});

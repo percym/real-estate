@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json())
-const PORT =process.env.PORT || 5001;
+const PORT =process.env.PORT || 5002;
 
 mongoose.connect(process.env.MONGO)
 .then(()=>app.listen(PORT,()=>console.log(`server running on port ${PORT}`)))

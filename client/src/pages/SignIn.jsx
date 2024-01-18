@@ -32,6 +32,7 @@ export default function SignIn() {
         return;
       }
      dispatch(signInSuccess(data));
+     console.log(data);
       navigate('/');
     } catch (error) {
       console.log(error)

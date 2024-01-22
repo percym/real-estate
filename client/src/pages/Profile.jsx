@@ -55,7 +55,7 @@ export default function Profile() {
         <img 
           onClick={() => { fileRef.current.click() }} 
           className='self-center rounded-full h-24 w-24 object-cover hover:cursor-pointer' 
-          src={currentUser.avatar} alt={currentUser.username} 
+          src={formData.avatar ?formData.avatar:currentUser.avatar} alt={currentUser.username} 
         />
         <p className='text-sm self-center text-pretty text-center'>
           {fileUploadError ?

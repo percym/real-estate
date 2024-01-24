@@ -62,7 +62,7 @@ export default function Profile() {
     try {
       dispatch(updateUserStart());
       setUpdateSuccess(false);
-      const res = await fetch(`/api/user/update/${currentUser._id + 1}`,{
+      const res = await fetch(`/api/user/update/${currentUser._id}`,{
         method:'POST',
         headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify(formData),
@@ -126,7 +126,7 @@ export default function Profile() {
         <span className='text-red-700'>Sign out </span>
       </div>
       <p><span className='text-red-700 '>{error? error:''}</span></p>
-      <p><span className='text-red-700 '>{updateSuccess? 'User updated sucessfully':''}</span></p>
+      <p><span className='text-green-700 '>{updateSuccess? 'User updated sucessfully':''}</span></p>
     </div>
   )
 }

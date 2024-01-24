@@ -14,6 +14,7 @@ export default function Profile() {
   const [fileUploadError, setFileUpLoadError] = useState(false);
   const [formData, setFormData] = useState({});
   const dispatch = useDispatch();
+  const [updateSuccess,setUpdateSuccess] = useState(false);
 
 
   console.log('percentage', filePerc);
@@ -60,19 +61,18 @@ export default function Profile() {
     e.preventDefault();
     try {
       dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`,{
+      setUpdateSuccess(false);
+      const res = await fetch(`/api/user/update/${currentUser._id + 1}`,{
         method:'POST',
         headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
-      console.log('data ', data);
       if(data.success === false){
         dispatch(updateUserFailure(data.message));
         return;
       }
-      console.log('data after update', data);
         dispatch(updateUserSuccess(data));
+        setUpdateSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error.message))      
     }
@@ -118,13 +118,15 @@ export default function Profile() {
             id='password'
             onChange={handleChange} />
 
-        <button className='bg-slate-700 text-white p-3 
+        <button  disabled={loading} className='bg-slate-700 text-white p-3 
         rounded-lg uppercase hover:opacity-90 disabled:opacity-80'> {loading ? 'Loading...' : 'Update'}</button>
       </form>
       <div className='flex justify-between mt-5'>
         <span className='text-red-700'>Delete account </span>
         <span className='text-red-700'>Sign out </span>
       </div>
+      <p><span className='text-red-700 '>{error? error:''}</span></p>
+      <p><span className='text-red-700 '>{updateSuccess? 'User updated sucessfully':''}</span></p>
     </div>
   )
 }

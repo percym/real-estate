@@ -17,6 +17,7 @@ export default function Profile() {
   console.log('fiera', file);
   console.log('formData', formData);
   console.log('file upload error ', fileUploadError);
+  console.log('current user profile', currentUser);
 
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export default function Profile() {
         <img 
           onClick={() => { fileRef.current.click() }} 
           className='self-center rounded-full h-24 w-24 object-cover hover:cursor-pointer' 
-          src={formData.avatar ?formData.avatar:currentUser.avatar} alt={currentUser.username} 
+          src={currentUser.avatar ? currentUser.avatar : formData.avatar} alt={currentUser.username} 
         />
         <p className='text-sm self-center text-pretty text-center'>
           {fileUploadError ?

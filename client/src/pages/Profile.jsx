@@ -48,6 +48,10 @@ export default function Profile() {
     )
 
   }
+
+  const handleChange = (e)=>{
+    setFormData({...formData, [e.target.id]:e.target.id.value});
+  }
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl font-semibold text-center m7 '>Profile</h1>
@@ -56,7 +60,7 @@ export default function Profile() {
         <img 
           onClick={() => { fileRef.current.click() }} 
           className='self-center rounded-full h-24 w-24 object-cover hover:cursor-pointer' 
-          src={currentUser.avatar ? currentUser.avatar : formData.avatar} alt={currentUser.username} 
+          src={formData.avatar || currentUser.avatar} alt={currentUser.username} 
         />
         <p className='text-sm self-center text-pretty text-center'>
           {fileUploadError ?
@@ -65,9 +69,29 @@ export default function Profile() {
            (<span className='text-green-700'>{`Uploading  ${filePerc} % `}</span>):filePerc ===100 ?
            (<span className='text-green-700'>Upload success</span>):" "}
         </p>
-        <input type='text' placeholder='username' className='border p-3 rounded-lg' id='username' />
-        <input type='email' placeholder='email' className='border p-3 rounded-lg' id='email' />
-        <input type='password' placeholder='password' className='border p-3 rounded-lg' id='password' />
+        <input 
+            type='text' 
+            placeholder='username' 
+            className='border p-3 rounded-lg' 
+            id='username'  
+            defaultValue={currentUser.username} 
+            onChange={handleChange}/>
+
+        <input 
+            type='email' 
+            placeholder='email' 
+            className='border p-3 rounded-lg' 
+            id='email'  
+            defaultValue={currentUser.email}
+            onChange={handleChange}/>
+
+        <input 
+            type='password'
+            placeholder='password' 
+            className='border p-3 rounded-lg'
+            id='password'
+            onChange={handleChange} />
+
         <button className='bg-slate-700 text-white p-3 
         rounded-lg uppercase hover:opacity-90 disabled:opacity-80'> update</button>
       </form>

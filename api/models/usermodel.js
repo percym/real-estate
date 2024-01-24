@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar:{
         type:String,
-        default:'https://pixabay.com/vectors/blank-profile-picture-mystery-man-973460/'
+        default:'https://placehold.co/600x400'
     }
 }, { timestamps: true });
 

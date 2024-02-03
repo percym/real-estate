@@ -172,13 +172,13 @@ console.log('formData => ', formData.imageUrls)
                    
                     <p className='text-red-700 text-sm'>{imageUploadError && imageUploadError}</p>
                     {formData.imageUrls.length > 0 &&
-                        formData.imageUrls.map((url, index)=>(
-                        <div className='flex justify-between p-3 border items-center' key={url}>
+                        formData.imageUrls.map((url, index)=>{
+                        return(<div className='flex justify-between p-3 border items-center' key={url}>
                             <img src={url} alt='listing image' className='w-20 h-20 object-contain rounded-lg' />
                             <button onClick={() => { handleRemoveImage(index) }} type='button' className='text-red-700 rounded-lg hover:opacity-75'>Delete</button>
-                        </div>
+                        </div>)
                         
-                        ))
+                    })
                      
                     }
                      <button className='p-3 bg-slate-700 text-white rounded-lg uppercase hover:placeholder-opacity-95 disabled:placeholder-opacity-80'>Create Listing</button>

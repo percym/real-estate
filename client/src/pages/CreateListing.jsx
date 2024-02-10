@@ -4,6 +4,7 @@ import { useState } from 'react';
 import app from '../firebase';
 import { getDownloadURL, ref, getStorage, uploadBytesResumable } from 'firebase/storage';
 import {  useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 export default function CreateListing() {
     const [files, setFiles] = useState([]);
@@ -16,7 +17,7 @@ export default function CreateListing() {
         bedrooms: 1,
         bathrooms: 1,
         regularPrice: 50,
-        discountPrice: 50,
+        discountPrice: 0,
         offer: false,
         parking: false,
         furnished: false,
@@ -27,6 +28,7 @@ export default function CreateListing() {
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
     const {currentUser} = useSelector(state => state.user);
+    const navigate = useNavigate();
 
     console.log('formData => ', formData)
     const handleImageSubmit = () => {
@@ -102,7 +104,15 @@ export default function CreateListing() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
+            if(formData.imageUrls.length <1 ) {
+                return setError('You must upload at least one image')
+            }
+
+            if(+formData.discountPrice > +formData.regularPrice ) {
+                return setError('Discount price must be less than regular price')
+            }
             setLoading(true);
             setError(false);
             const res = await fetch('/api/listing/create', {
@@ -116,12 +126,13 @@ export default function CreateListing() {
                 }),
             });
 
-            const data = res.json();
+            const data = await res.json();
             setLoading(false);
 
             if (data.success === false) {
                 setError(data.message);
             }
+            navigate(`/listing/${data._id}`)
         } catch (error) {
             setError(true);
             setLoading(false);
@@ -253,14 +264,15 @@ export default function CreateListing() {
                                 <span className='text-xs'>($ / month)</span>
                             </div>
                         </div>
-                        <div className='flex items-center gap-2'>
+                        {formData.offer && ( 
+                            <div className='flex items-center gap-2'>
                             <input
                                 className='p-3 
                               border-gray-300 
                                 rounded-lg'
                                 type='number'
                                 id='discountPrice'
-                                min='50'
+                                min='0'
                                 max='1000000'
                                 required
                                 onChange={handleChange}
@@ -269,7 +281,9 @@ export default function CreateListing() {
                                 <p>Discounted Price</p>
                                 <span className='text-xs'>($ / month)</span>
                             </div>
-                        </div>
+                            </div>
+                        )}
+                       
 
                     </div>
                 </div>
@@ -303,7 +317,8 @@ export default function CreateListing() {
                         })
 
                     }
-                    <button 
+                    <button
+                     disabled={loading || uploading}    
                      className='p-3 
                      bg-slate-700 
                      text-white 
@@ -311,7 +326,7 @@ export default function CreateListing() {
                      uppercase 
                      hover:placeholder-opacity-95 
                      disabled:placeholder-opacity-80'>{loading?'Creating':'Create listing'}</button>
-                     {error && <p className='text-r3d-700 text-sm'>{error}</p>}
+                     {error && <p className='text-red-700 text-sm'>{error}</p>}
                 </div>
 
             </form>

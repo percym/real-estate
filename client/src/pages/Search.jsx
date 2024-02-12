@@ -1,3 +1,4 @@
+import { list } from 'firebase/storage';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,6 +18,8 @@ export default function Search() {
   const [listings, setListings] = useState([]);
   const [showMore, setShowMore] = useState(false);
     console.log(sideBarData);
+    console.log(listings);
+
 
     useEffect(() => {
         const urlParams = new URLSearchParams(location.search);

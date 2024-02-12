@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
+
 export default function Contact({ listing }) {
   const [landlord, setLandLord] = useState(null);
   const params= useParams();

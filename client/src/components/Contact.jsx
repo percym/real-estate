@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { useParams , Link} from 'react-router-dom';
 
 export default function Contact({ listing }) {
   const [landlord, setLandLord] = useState(null);
+  const [message, setMessage] = useState('');
   const params= useParams();
 
   useEffect(() => {
@@ -20,11 +20,29 @@ export default function Contact({ listing }) {
     fetchLandLord();
   }, [listing.userRef]);
 
+  const onChange=async()=>{
+
+  }
+
   return (
     <>
       {landlord && (
-        <div className=''>
-          <p>Contact <span>{landlord.username}</span></p>
+        <div className='flex flex-col gap-2'>
+          <p >Contact <span className='font-semibold'>{landlord.username }</span>
+           for  <span className='font-semibold'>{listing.name.toLowerCase()}</span></p>
+           <textarea 
+            name="message" 
+            id="message" 
+            rows={2} 
+            value={message} 
+            onChange={onChange}
+            className='w-full border p-3 rounded-lg'>
+          </textarea>
+          <Link 
+            to={`mailto:${landlord.email}?subject=Regarding ${listing.name}&body=${message}`}
+            className='bg-slate-700 text-white text-center uppercase rounded-lg hover:opacity-95'>
+              Send message
+          </Link>
         </div>
       )}
     </>

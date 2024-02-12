@@ -34,7 +34,7 @@ export default function SignIn() {
       }
      dispatch(signInSuccess(data));
      console.log(data);
-      navigate('/');
+      navigate('/profile');
     } catch (error) {
       console.log(error)
       dispatch(signInFailure(error.message));

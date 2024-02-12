@@ -34,7 +34,13 @@ export default function UpdateListing() {
     useEffect(()=>{
         const fetchListing = async ()=>{
             const listingId = params.listingId;
-            console.log(listingId);
+            const res = await fetch(`/api/listing/get/${listingId}`)
+            const data = await res.json();
+            setFormData(data);
+
+            if(data.success === false){
+                console.log(data);
+            }
         }
 
         fetchListing();
@@ -127,7 +133,7 @@ export default function UpdateListing() {
             }
             setLoading(true);
             setError(false);
-            const res = await fetch('/api/listing/create', {
+            const res = await fetch(`/api/listing/update/${params.listingId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -337,7 +343,7 @@ export default function UpdateListing() {
                      rounded-lg
                      uppercase 
                      hover:placeholder-opacity-95 
-                     disabled:placeholder-opacity-80'>{loading?'Creating':'Create listing'}</button>
+                     disabled:placeholder-opacity-80'>{loading?'Updating':'Update listing'}</button>
                      {error && <p className='text-red-700 text-sm'>{error}</p>}
                 </div>
 
